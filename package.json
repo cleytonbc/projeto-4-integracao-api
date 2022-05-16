@@ -1,0 +1,8 @@
+{
+  "name": "projeto-4-integracao-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/cleytonbc/projeto-4-integracao-api.git",
+  "author": "Cleyton B. C. <cleytonbc@hotmail.com>",
+  "license": "MIT"
+}
