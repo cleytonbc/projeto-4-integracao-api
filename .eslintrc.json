@@ -56,7 +56,7 @@
         }
         ],
         "import/no-extraneous-dependencies": [
-        "error",
+        "error"
         ],
         "prettier/prettier": "error",
         "no-use-before-define": ["error", {"functions": false, "classes": false}]
