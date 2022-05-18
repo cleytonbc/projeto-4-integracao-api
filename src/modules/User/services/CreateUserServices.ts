@@ -1,3 +1,4 @@
+import { AppError } from "../../../shared/errors/AppError";
 import { ICriptografyPassword } from "../../../shared/providers/cryptography";
 import { CriptografyPasswordBcrypt } from "../../../shared/providers/cryptography/implements/CriptografyPasswordBcrypt";
 import { UserRespository } from "../repositories/implements/UserRepository";
@@ -19,7 +20,7 @@ class CreateUserServices {
     const userEmailExists = await userRespository.findEmail(email);
 
     if (userEmailExists) {
-      throw new Error("Email já existente");
+      throw new AppError("Email já existente");
     }
 
     const password_hash = await this.criptografyPassword.Hash(password);
