@@ -16,12 +16,13 @@ class UserRespository implements IUserRepository {
       email,
       password_hash,
     });
+
     await user.save();
 
     return user;
   }
-  findEmail(Email: string): Promise<IUser> {
-    throw new Error("Method not implemented.");
+  async findEmail(email: string): Promise<IUser> {
+    return User.findOne({ email });
   }
   update(id: string): Promise<IUser> {
     throw new Error("Method not implemented.");
