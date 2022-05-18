@@ -1,6 +1,6 @@
 import { ICreateUserDTO } from "../DTOS/ICreateUserDTO";
-import { IUser } from "../Schema/IUser";
-import { User } from "../Schema";
+import { IUser } from "../schemas/IUser";
+import { User } from "../schemas";
 
 export interface IUserRepository {
   create(data: ICreateUserDTO): Promise<IUser>;

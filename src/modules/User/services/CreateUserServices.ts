@@ -1,9 +1,8 @@
-import { usersRouter } from "../../routes/users.routes";
-import { ICriptografyPassword } from "../cryptography";
-import { CriptografyPasswordBcrypt } from "../cryptography/implements/CriptografyPasswordBcrypt";
-import { Users } from "../model/Users";
+import { usersRouter } from "../../../routes/users.routes";
+import { ICriptografyPassword } from "../../../shared/cryptography";
+import { CriptografyPasswordBcrypt } from "../../../shared/cryptography/implements/CriptografyPasswordBcrypt";
 import { UserRespository } from "../repositories/implements/UserRepository";
-import { IUser } from "../Schema/IUser";
+import { IUser } from "../schemas/IUser";
 
 interface IRequest {
   name: string;

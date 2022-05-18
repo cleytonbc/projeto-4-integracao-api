@@ -6,7 +6,7 @@
   "author": "Cleyton B. C. <cleytonbc@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/server.ts"
+    "dev": "ts-node-dev  --inspect  --transpile-only --ignore-watch node_modules --respawn src/server.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",

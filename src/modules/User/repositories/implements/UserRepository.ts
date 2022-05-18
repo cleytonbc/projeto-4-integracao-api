@@ -1,7 +1,6 @@
 import { ICreateUserDTO } from "../../DTOS/ICreateUserDTO";
-import { Users } from "../../model/Users";
-import { User } from "../../Schema";
-import { IUser } from "../../Schema/IUser";
+import { User } from "../../schemas";
+import { IUser } from "../../schemas/IUser";
 import { IUserRepository } from "../IUserRepository";
 
 class UserRespository implements IUserRepository {
