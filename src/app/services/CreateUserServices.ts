@@ -1,6 +1,9 @@
+import { usersRouter } from "../../routes/users.routes";
 import { ICriptografyPassword } from "../cryptography";
 import { CriptografyPasswordBcrypt } from "../cryptography/implements/CriptografyPasswordBcrypt";
 import { Users } from "../model/Users";
+import { UserRespository } from "../repositories/implements/UserRepository";
+import { IUser } from "../Schema/IUser";
 
 interface IRequest {
   name: string;
@@ -12,12 +15,12 @@ class CreateUserServices {
   constructor() {
     this.criptografyPassword = new CriptografyPasswordBcrypt();
   }
-  async execute({ name, email, password }: IRequest): Promise<Users> {
-    const user = new Users();
+  async execute({ name, email, password }: IRequest): Promise<IUser> {
+    const userRespository = new UserRespository();
 
     const password_hash = await this.criptografyPassword.Hash(password);
 
-    Object.assign(user, {
+    const user = userRespository.create({
       name,
       email,
       password_hash,
