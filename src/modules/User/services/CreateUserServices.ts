@@ -1,6 +1,5 @@
-import { usersRouter } from "../../../routes/users.routes";
-import { ICriptografyPassword } from "../../../shared/cryptography";
-import { CriptografyPasswordBcrypt } from "../../../shared/cryptography/implements/CriptografyPasswordBcrypt";
+import { ICriptografyPassword } from "../../../shared/providers/cryptography";
+import { CriptografyPasswordBcrypt } from "../../../shared/providers/cryptography/implements/CriptografyPasswordBcrypt";
 import { UserRespository } from "../repositories/implements/UserRepository";
 import { IUser } from "../schemas/IUser";
 
