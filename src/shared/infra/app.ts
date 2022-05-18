@@ -5,7 +5,7 @@ import { router } from "./routes";
 
 const app = express();
 
-import "../database";
+import "./database";
 
 app.use(express.json());
 
