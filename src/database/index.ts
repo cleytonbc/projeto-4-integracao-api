@@ -1,4 +1,4 @@
-import { Schema, model, connect } from "mongoose";
+import { Schema, connect } from "mongoose";
 import { User } from "../app/Schema";
 
 run()
