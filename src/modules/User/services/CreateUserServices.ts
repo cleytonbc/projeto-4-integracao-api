@@ -17,7 +17,7 @@ class CreateUserServices {
   async execute({ name, email, password }: IRequest): Promise<IUser> {
     const userRespository = new UserRespository();
 
-    const userEmailExists = userRespository.findEmail(email);
+    const userEmailExists = await userRespository.findEmail(email);
 
     if (userEmailExists) {
       throw new Error("Email já existente");
