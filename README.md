@@ -1,7 +1,7 @@
 # Projeto-4-integracao-api
 Projeto 4 desenvolvido para a NODE TEAM 1ª Edição - https://github.com/nodejsbrasil/nodeteam
 
-O desafio a ser desenvolvido
+## O desafio proposto ...
 
 # Projeto Integração de API de terceitos
 
