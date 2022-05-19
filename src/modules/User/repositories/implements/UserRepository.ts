@@ -26,6 +26,9 @@ class UserRespository implements IUserRepository {
   update(id: string): Promise<IUser> {
     throw new Error("Method not implemented.");
   }
+  async findById(id: string): Promise<IUser> {
+    return User.findById(id);
+  }
 }
 
 export { UserRespository };
