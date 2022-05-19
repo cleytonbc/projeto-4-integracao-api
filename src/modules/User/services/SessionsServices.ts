@@ -1,3 +1,5 @@
+import { sign } from "jsonwebtoken";
+import auth from "../../../config/auth";
 import { AppError } from "../../../shared/errors/AppError";
 import { ICriptografyPassword } from "../../../shared/providers/cryptography";
 import { CriptografyPasswordBcrypt } from "../../../shared/providers/cryptography/implements/CriptografyPasswordBcrypt";
@@ -10,6 +12,14 @@ interface IRequest {
   password: string;
 }
 
+interface IResponse {
+  user: {
+    name: string;
+    email: string;
+  };
+  token: string;
+}
+
 class SessionsServices {
   private criptografyPassword: ICriptografyPassword;
   private userRepository: IUserRepository;
@@ -18,8 +28,10 @@ class SessionsServices {
     this.userRepository = new UserRespository();
   }
 
-  async execute({ email, password }: IRequest) {
+  async execute({ email, password }: IRequest): Promise<IResponse> {
     const userExist = await this.userRepository.findEmail(email);
+
+    const { secret_token, expiresIn } = auth;
 
     if (!userExist) {
       throw new AppError("usuário ou senha inválida");
@@ -34,7 +46,18 @@ class SessionsServices {
       throw new AppError("usuário ou senha inválida");
     }
 
-    return "login efetuado";
+    const token = sign({}, secret_token, {
+      subject: userExist._id,
+      expiresIn,
+    });
+
+    return {
+      user: {
+        name: userExist.name,
+        email: userExist.email,
+      },
+      token,
+    };
   }
 }
 export { SessionsServices };
