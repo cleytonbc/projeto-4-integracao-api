@@ -1,4 +1,5 @@
 import { ICreateUserDTO } from "../../DTOS/ICreateUserDTO";
+import { IUpdateUserDTO } from "../../DTOS/IUpdateUserDTO";
 import { User } from "../../schemas";
 import { IUser } from "../../schemas/IUser";
 import { IUserRepository } from "../IUserRepository";
@@ -23,8 +24,19 @@ class UserRespository implements IUserRepository {
   async findEmail(email: string): Promise<IUser> {
     return User.findOne({ email });
   }
-  update(id: string): Promise<IUser> {
-    throw new Error("Method not implemented.");
+  async findAndUpdate({
+    _id,
+    name,
+    email,
+    password_hash,
+  }: IUpdateUserDTO): Promise<IUser> {
+    return User.findOneAndUpdate(
+      { _id },
+      { _id, name, email, password_hash },
+      {
+        new: true,
+      },
+    );
   }
   async findById(id: string): Promise<IUser> {
     return User.findById(id);
