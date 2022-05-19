@@ -5,8 +5,8 @@ class CriptografyPasswordBcrypt implements ICriptografyPassword {
   async Hash(password: string): Promise<string> {
     return hash(password, 8);
   }
-  CompareHash(password: string, passowrd_hash: string): Promise<boolean> {
-    return compare(password, passowrd_hash);
+  async CompareHash(password: string, password_hash: string): Promise<boolean> {
+    return compare(password, password_hash);
   }
 }
 
