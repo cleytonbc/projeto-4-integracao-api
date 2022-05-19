@@ -1,5 +1,4 @@
 import { Schema, connect } from "mongoose";
-import { User } from "../modules/User/schemas";
 
 run()
   .then(() => console.log("Connected to database"))
