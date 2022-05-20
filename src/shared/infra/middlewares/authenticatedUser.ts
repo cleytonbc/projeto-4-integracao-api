@@ -18,7 +18,7 @@ export async function authenticatedUser(
   const { secret_token } = auth;
 
   if (!authHeader) {
-    throw new AppError("Token não informado");
+    throw new AppError("Token não informado", 401);
   }
 
   const [, token] = authHeader.split(" ");
@@ -31,7 +31,7 @@ export async function authenticatedUser(
     const user = await userRepository.findById(user_id);
 
     if (!user) {
-      throw new AppError("Usuario não existe");
+      throw new AppError("Usuario não existe",401);
     }
 
     request.user = {
@@ -40,6 +40,6 @@ export async function authenticatedUser(
 
     next();
   } catch {
-    throw new AppError("Token inválido");
+    throw new AppError("Token inválido",401);
   }
 }
