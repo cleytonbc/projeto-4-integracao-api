@@ -11,7 +11,7 @@
   "paths": {
     "/users": {
       "post": {
-        "tags": ["Users"],
+        "tags": ["User"],
         "sumary": "Criar usuário",
         "description": "Criação de uma nova categoria",
         "requestBody": {
@@ -55,8 +55,8 @@
     "/sessions":{
       "post":{
         "tags": ["Session"],
-        "summary": "Authentication user",
-        "description": "Authentication user",
+        "summary": "Autenticação do usuário",
+        "description": "Autenticação do usuário onde é retornado um token para ser utilizado nos acessos que necessitam de autenticação",
         "requestBody": {
           "content": {
             "application/json": {
@@ -70,7 +70,12 @@
                     "type": "string"
                   }
                 }
+              },
+              "example": {
+                "email": "usuario@teste.com",
+                "password": "123456"
               }
+
             }
           }
         },
@@ -85,6 +90,29 @@
       }
     },
     "/profile": {
+      "get": {
+        "tags": ["Profile"],
+        "sumary": "Lista o perfil de usuário",
+        "description": "Listar perfil do usuário com seus",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Sucesso"
+          },
+          "404": {
+            "description": "Usuário não existe"
+          },
+          "401": {
+            "description": "Usuário não autenticado"
+          },
+          "500": {
+            "description": "Verificar dados informados"
+          }
+        }
+      },
       "post": {
         "tags": ["Profile"],
         "sumary": "Alterar perfil de usuário",
@@ -127,6 +155,9 @@
           },
           "400": {
             "description": "Já existe usuário com esse e-mail"
+          },
+          "401": {
+            "description": "Usuário não autenticado"
           },
           "500": {
             "description": "Verificar dados informados"
