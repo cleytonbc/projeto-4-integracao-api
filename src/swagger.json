@@ -1,0 +1,147 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Documentação Integração de API",
+    "description": "Documentação do Projeto porposto no NodeJs Team da comunidade NodeJs Brasil",
+    "version": "1.0.0",
+    "contact": {
+      "email": "cleytonbc@hotmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "sumary": "Criar usuário",
+        "description": "Criação de uma nova categoria",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "passowrd": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Novo Usuário",
+                  "email": "usuario@teste.com",
+                  "password": "123456"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "400": {
+            "description": "Já existe usuário com esse e-mail"
+          },
+          "500": {
+            "description": "Verificar dados informados"
+          }
+        }
+      }
+    },
+    "/sessions":{
+      "post":{
+        "tags": ["Session"],
+        "summary": "Authentication user",
+        "description": "Authentication user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Email or password incorrect!"
+          }
+        }
+      }
+    },
+    "/profile": {
+      "post": {
+        "tags": ["Profile"],
+        "sumary": "Alterar perfil de usuário",
+        "description": "Alterar perfil do usuário, podendo alterar, nome, email, senha. A senha atual deve ser informada para para atualizar",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "oldPassowrd": {
+                    "type": "string"
+                  },
+                  "passowrd": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Usuário Alterado",
+                  "email": "usuario@teste.com",
+                  "oldPassword": "123456",
+                  "password": "12345678"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Atualizado com sucesso"
+          },
+          "400": {
+            "description": "Já existe usuário com esse e-mail"
+          },
+          "500": {
+            "description": "Verificar dados informados"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes":{
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer" ,
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
