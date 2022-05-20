@@ -93,7 +93,7 @@
       "get": {
         "tags": ["Profile"],
         "sumary": "Lista o perfil de usuário",
-        "description": "Listar perfil do usuário com seus",
+        "description": "Listar perfil do usuário com seus dados",
         "security": [
           { "bearerAuth": [] }
         ],
