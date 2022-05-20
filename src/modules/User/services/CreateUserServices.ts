@@ -9,12 +9,17 @@ interface IRequest {
   email: string;
   password: string;
 }
+interface IResponse {
+  name: string;
+  email: string;
+}
+
 class CreateUserServices {
   private criptografyPassword: ICriptografyPassword;
   constructor() {
     this.criptografyPassword = new CriptografyPasswordBcrypt();
   }
-  async execute({ name, email, password }: IRequest): Promise<IUser> {
+  async execute({ name, email, password }: IRequest): Promise<IResponse> {
     const userRespository = new UserRespository();
 
     const userEmailExists = await userRespository.findEmail(email);
@@ -25,13 +30,16 @@ class CreateUserServices {
 
     const password_hash = await this.criptografyPassword.Hash(password);
 
-    const user = userRespository.create({
+    userRespository.create({
       name,
       email,
       password_hash,
     });
 
-    return user;
+    return {
+      name,
+      email,
+    };
   }
 }
 
