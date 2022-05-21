@@ -5,13 +5,14 @@ export interface ITracker {
   userId: string;
   isDelivery: boolean;
   amount: number;
+  lastUpdate: Date;
   events: [
     {
-      date: string;
-      hour: string;
-      locality: string;
-      status: string;
-      subStatus: [];
+      date?: string;
+      hour?: string;
+      locality?: string;
+      status?: string;
+      subStatus?: [];
     },
   ];
 }

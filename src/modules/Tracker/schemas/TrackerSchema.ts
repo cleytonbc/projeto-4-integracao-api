@@ -9,6 +9,7 @@ const trackerSchema = new Schema<ITracker>({
   amount: { type: Number, required: true },
   userId: { type: String, required: true },
   isDelivery: { type: Boolean, required: true },
+  lastUpdate: { type: Date, required: true },
   events: [
     {
       date: {
