@@ -27,7 +27,10 @@ class CreateTrackerService {
   async execute(code: string, userId: string): Promise<IResponse> {
     const callApiTrackerServices = new CallApiTrackerServices();
 
-    const codeExists = await this.trackerRepository.findByCode(code);
+    const codeExists = await this.trackerRepository.findByCodeAndUser(
+      code,
+      userId,
+    );
 
     if (codeExists) {
       throw new AppError("Já existe esse código cadastrado");

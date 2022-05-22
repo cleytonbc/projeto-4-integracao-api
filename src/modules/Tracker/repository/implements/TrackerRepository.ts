@@ -27,8 +27,8 @@ class TrackerRepository implements ITrackerRepository {
 
     return tracker;
   }
-  async findByCode(code: string): Promise<ITracker> {
-    return Tracker.findOne({ code });
+  async findByCodeAndUser(code: string, userId: String): Promise<ITracker> {
+    return Tracker.findOne({ code, userId });
   }
   async findByUser(userId: string): Promise<ITracker[]> {
     return Tracker.find({ userId });
