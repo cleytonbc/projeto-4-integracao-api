@@ -30,8 +30,8 @@ class TrackerRepository implements ITrackerRepository {
   async findByCode(code: string): Promise<ITracker> {
     return Tracker.findOne({ code });
   }
-  findByUser(userId: string): Promise<ITracker[]> {
-    throw new Error("Method not implemented.");
+  async findByUser(userId: string): Promise<ITracker[]> {
+    return Tracker.find({ userId });
   }
 }
 export { TrackerRepository };
