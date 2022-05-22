@@ -1,3 +1,4 @@
+import { AppError } from "../../../shared/errors/AppError";
 import { TrackerRepository } from "../repository/implements/TrackerRepository";
 import { ITrackerRepository } from "../repository/ITrackerRepository";
 
@@ -23,6 +24,9 @@ class ListAllTrackerUserServices {
   async execute(userId: string): Promise<IResponse[]> {
     const trackersUser = await this.trackerRepository.findByUser(userId);
 
+    if (!trackersUser) {
+      throw new AppError("Nenhum rastreio encontrado para esse usuário", 404);
+    }
     const trackers = [];
 
     trackersUser.map(t => {
