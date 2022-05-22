@@ -1,14 +1,17 @@
 import { AxiosResponse } from "axios";
 import apiTrack from "../../../shared/api/apiTrack";
+import { AppError } from "../../../shared/errors/AppError";
+import { convertDateStrAndHouStr } from "../../../shared/utils/convertDate";
+import { validCode } from "../../../shared/utils/validCode";
 import { ITracker } from "../schemas/ITracker";
 
-interface IResponse {
+interface IResponseTracker {
   codigo: string;
   host: string;
   time: number;
   quantidade: number;
   servico: string;
-  ultimo: string;
+  ultimo?: string;
   eventos?: [
     {
       status: string;
@@ -19,10 +22,20 @@ interface IResponse {
     },
   ];
 }
+interface IResponseError {
+  error: boolean;
+  message: string;
+}
 
 class CallApiTrackerServices {
-  async execute(code: string, userId: string) {
-    const response: AxiosResponse<IResponse> = await apiTrack
+  async execute(code: string, userId: string): Promise<ITracker> {
+    const codeFomartIsValid = validCode(code);
+
+    if (!codeFomartIsValid) {
+      throw new AppError("O formato do código não é válido, favor verificar");
+    }
+
+    const response: AxiosResponse<IResponseTracker> = await apiTrack
       .get("", {
         params: {
           user: process.env.LINKETRACK_USER,
@@ -33,16 +46,29 @@ class CallApiTrackerServices {
       .catch(err => err);
 
     if (!response.data) {
-      return { error: true };
+      throw new AppError("Código ou dados de login inválido");
     } else if (response.status === 200) {
       const { codigo, servico, quantidade, eventos } = response.data;
+      let lastUpdate: Date;
+      let isDelivery = false;
 
-      const track = {
+      if (eventos.length > 0) {
+        lastUpdate = convertDateStrAndHouStr(eventos[0].data, eventos[0].hora);
+        console.log(eventos[0].status);
+        if (eventos[0].status === "Objeto entregue ao destinatário") {
+          isDelivery = true;
+        }
+      } else {
+        lastUpdate = new Date();
+      }
+
+      return {
         code: codigo,
         service: servico,
         userId,
-        isDelivery: false,
+        isDelivery,
         amount: quantidade,
+        lastUpdate,
         events: eventos.map(evento => {
           return {
             date: evento.data,
@@ -53,9 +79,8 @@ class CallApiTrackerServices {
           };
         }),
       };
-      return track;
     } else if (response.status === 401) {
-      return { message: "erro ao consultar codigo" };
+      throw new AppError("Acesso não autorizado ou código inválido", 401);
     }
   }
 }
