@@ -5,4 +5,5 @@ export interface ITrackerRepository {
   create(data: ICreateTrackerDTO): Promise<ITracker>;
   findByCodeAndUser(code: string, userId): Promise<ITracker>;
   findByUser(userId: string): Promise<ITracker[]>;
+  findById(id: string): Promise<ITracker>;
 }
