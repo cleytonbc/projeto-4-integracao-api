@@ -9,6 +9,6 @@ const router = Router();
 router.use("/users", usersRouter);
 router.use("/sessions", sessionsRouter);
 router.use("/profile", profileRouter);
-router.use("/tracker", trackerRouter);
+router.use("/trackers", trackerRouter);
 
 export { router };
