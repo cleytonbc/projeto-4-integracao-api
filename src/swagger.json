@@ -164,6 +164,151 @@
           }
         }
       }
+    },
+    "/trackers": {
+      "post": {
+        "tags": ["Tracker"],
+        "sumary": "Adicionar um rastreio",
+        "description": "Adiciona um código de rastreio novo para o usuário autenticado",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "code": "AA123456789BR"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Adicionado com sucesso"
+          },
+          "400": {
+            "description": "Já existe usuário com esse e-mail"
+          },
+          "401": {
+            "description": "Usuário não autenticado"
+          },
+          "500": {
+            "description": "Verificar dados informados"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Tracker"],
+        "sumary": "Lista rastreios",
+        "description": "Listar todos os rastreios do usuário autenticado",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Sucesso"
+          },
+          "404": {
+            "description": "Nenhum rastreio encontrado para esse usuário"
+          },
+          "401": {
+            "description": "Usuário não autenticado"
+          }
+        }
+      }
+
+    },
+    "/trackers/{id}": {
+      "put": {
+        "tags": ["Tracker"],
+        "sumary": "Lista rastreios",
+        "description": "Listar todos os rastreios do usuário autenticado",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+
+        "parameters":[
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id do rastreio",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "code": "AA123456789BR"
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Sucesso"
+          },
+          "404": {
+            "description": "Nenhum rastreio encontrado para esse usuário"
+          },
+          "401": {
+            "description": "Usuário não autenticado"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Tracker"],
+        "sumary": "Lista rastreios",
+        "description": "Listar todos os rastreios do usuário autenticado",
+        "security": [
+          { "bearerAuth": [] }
+        ],
+
+        "parameters":[
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id do rastreio",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Sucesso"
+          },
+          "404": {
+            "description": "Nenhum rastreio encontrado para esse usuário"
+          },
+          "401": {
+            "description": "Usuário não autenticado"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -176,3 +321,4 @@
     }
   }
 }
+
