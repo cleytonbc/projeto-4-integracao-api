@@ -59,5 +59,8 @@ class TrackerRepository implements ITrackerRepository {
       },
     );
   }
+  async delete(id: string): Promise<void> {
+    await Tracker.findByIdAndDelete(id);
+  }
 }
 export { TrackerRepository };

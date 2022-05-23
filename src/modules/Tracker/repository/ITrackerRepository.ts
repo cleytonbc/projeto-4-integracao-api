@@ -8,4 +8,5 @@ export interface ITrackerRepository {
   findByUser(userId: string): Promise<ITracker[]>;
   findById(id: string): Promise<ITracker>;
   findAndUpdate(data: IUpdateTrackerDTO): Promise<ITracker>;
+  delete(id: string): Promise<void>;
 }
