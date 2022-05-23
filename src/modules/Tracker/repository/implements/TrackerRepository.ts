@@ -1,4 +1,5 @@
 import { ICreateTrackerDTO } from "../../DTOS/ICreateTrackerDTO";
+import { IUpdateTrackerDTO } from "../../DTOS/IUpdateTrackerDTO";
 import { Tracker } from "../../schemas";
 import { ITracker } from "../../schemas/ITracker";
 import { ITrackerRepository } from "../ITrackerRepository";
@@ -27,14 +28,36 @@ class TrackerRepository implements ITrackerRepository {
 
     return tracker;
   }
+
   async findByCodeAndUser(code: string, userId: String): Promise<ITracker> {
     return Tracker.findOne({ code, userId });
   }
+
   async findByUser(userId: string): Promise<ITracker[]> {
     return Tracker.find({ userId });
   }
+
   async findById(id: string): Promise<ITracker> {
     return Tracker.findById(id);
+  }
+
+  async findAndUpdate({
+    _id,
+    code,
+    amount,
+    isDelivery,
+    service,
+    userId,
+    lastUpdate,
+    events,
+  }: IUpdateTrackerDTO): Promise<ITracker> {
+    return Tracker.findOneAndUpdate(
+      { _id },
+      { _id, code, amount, isDelivery, service, userId, lastUpdate, events },
+      {
+        new: true,
+      },
+    );
   }
 }
 export { TrackerRepository };

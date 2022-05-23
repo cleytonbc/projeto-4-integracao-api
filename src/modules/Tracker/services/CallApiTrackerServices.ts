@@ -54,7 +54,7 @@ class CallApiTrackerServices {
 
       if (eventos.length > 0) {
         lastUpdate = convertDateStrAndHouStr(eventos[0].data, eventos[0].hora);
-        console.log(eventos[0].status);
+
         if (eventos[0].status === "Objeto entregue ao destinatário") {
           isDelivery = true;
         }
