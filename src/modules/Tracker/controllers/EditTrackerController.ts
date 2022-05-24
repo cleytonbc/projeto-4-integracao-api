@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { container } from "tsyringe";
 import { EditTrackerService } from "../services/EditTrackerServices";
 
 class EditTrackerController {
@@ -10,7 +11,7 @@ class EditTrackerController {
     if (!code) {
       return response.status(400).json({ message: "Código não informado" });
     }
-    const editTrackerService = new EditTrackerService();
+    const editTrackerService = container.resolve(EditTrackerService);
 
     const tracker = await editTrackerService.execute(
       id,

@@ -1,3 +1,4 @@
+import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../shared/errors/AppError";
 import { TrackerRepository } from "../repository/implements/TrackerRepository";
 import { ITrackerRepository } from "../repository/ITrackerRepository";
@@ -16,11 +17,13 @@ interface IResponse {
   }[];
 }
 
+@injectable()
 class ListAllTrackerUserServices {
-  private trackerRepository: ITrackerRepository;
-  constructor() {
-    this.trackerRepository = new TrackerRepository();
-  }
+  constructor(
+    @inject("TrackerRepository")
+    private trackerRepository: ITrackerRepository,
+  ) {}
+
   async execute(userId: string): Promise<IResponse[]> {
     const trackersUser = await this.trackerRepository.findByUser(userId);
 

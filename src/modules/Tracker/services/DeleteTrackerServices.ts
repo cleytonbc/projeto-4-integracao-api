@@ -1,12 +1,15 @@
+import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../shared/errors/AppError";
 import { TrackerRepository } from "../repository/implements/TrackerRepository";
 import { ITrackerRepository } from "../repository/ITrackerRepository";
 
+@injectable()
 class DeleteTrackerServices {
-  private trackerRepository: ITrackerRepository;
-  constructor() {
-    this.trackerRepository = new TrackerRepository();
-  }
+  constructor(
+    @inject("TrackerRepository")
+    private trackerRepository: ITrackerRepository,
+  ) {}
+
   async execute(id: string, userId: string) {
     const trackerExists = await this.trackerRepository.findById(id);
 

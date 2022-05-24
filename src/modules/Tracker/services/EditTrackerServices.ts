@@ -1,3 +1,4 @@
+import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../shared/errors/AppError";
 import { validCode } from "../../../shared/utils/validCode";
 import { TrackerRepository } from "../repository/implements/TrackerRepository";
@@ -5,11 +6,13 @@ import { ITrackerRepository } from "../repository/ITrackerRepository";
 import { ITracker } from "../schemas/ITracker";
 import { CallApiTrackerServices } from "./CallApiTrackerServices";
 
+@injectable()
 class EditTrackerService {
-  private trackerRepository: ITrackerRepository;
-  constructor() {
-    this.trackerRepository = new TrackerRepository();
-  }
+  constructor(
+    @inject("TrackerRepository")
+    private trackerRepository: ITrackerRepository,
+  ) {}
+
   async execute(id: string, code: string, userId: string) {
     const codeFomartIsValid = validCode(code);
 

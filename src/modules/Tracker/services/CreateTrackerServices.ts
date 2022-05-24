@@ -1,3 +1,4 @@
+import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../shared/errors/AppError";
 import { ICreateTrackerDTO } from "../DTOS/ICreateTrackerDTO";
 import { TrackerRepository } from "../repository/implements/TrackerRepository";
@@ -19,11 +20,13 @@ interface IResponse {
   }[];
 }
 
+@injectable()
 class CreateTrackerService {
-  private trackerRepository: ITrackerRepository;
-  constructor() {
-    this.trackerRepository = new TrackerRepository();
-  }
+  constructor(
+    @inject("TrackerRepository")
+    private trackerRepository: ITrackerRepository,
+  ) {}
+
   async execute(code: string, userId: string): Promise<IResponse> {
     const callApiTrackerServices = new CallApiTrackerServices();
 

@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { container } from "tsyringe";
 import { DeleteTrackerServices } from "../services/DeleteTrackerServices";
 
 class DeleteTrackerController {
@@ -6,7 +7,7 @@ class DeleteTrackerController {
     const { id } = request.params;
     const userId = request.user.id;
 
-    const deletetrackerServices = new DeleteTrackerServices();
+    const deletetrackerServices = container.resolve(DeleteTrackerServices);
 
     await deletetrackerServices.execute(id, userId);
 

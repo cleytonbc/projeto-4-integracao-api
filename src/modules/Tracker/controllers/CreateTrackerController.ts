@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { container } from "tsyringe";
 import { CreateTrackerService } from "../services/CreateTrackerServices";
 
 class CreateTrackerController {
@@ -11,7 +12,7 @@ class CreateTrackerController {
         .json({ error: true, message: "Código não informado" });
     }
 
-    const createTrackerService = new CreateTrackerService();
+    const createTrackerService = container.resolve(CreateTrackerService);
     const track = await createTrackerService.execute(
       code.toUpperCase(),
       userId,

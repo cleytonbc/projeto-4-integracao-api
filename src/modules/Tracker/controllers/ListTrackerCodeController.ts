@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { container } from "tsyringe";
 import { ListTrackerCodeServices } from "../services/ListTrackerCodeServices copy";
 
 class ListTrackerCodeController {
@@ -6,7 +7,7 @@ class ListTrackerCodeController {
     const { code } = request.params;
     const userId = request.user.id;
 
-    const listTrackerCodeServices = new ListTrackerCodeServices();
+    const listTrackerCodeServices = container.resolve(ListTrackerCodeServices);
 
     const tracker = await listTrackerCodeServices.execute(code, userId);
 
