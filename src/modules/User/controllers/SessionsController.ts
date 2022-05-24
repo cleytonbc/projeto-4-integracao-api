@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { container } from "tsyringe";
 import { AppError } from "../../../shared/errors/AppError";
 import { SessionsServices } from "../services/SessionsServices";
 
@@ -10,7 +11,7 @@ class SessionsController {
       throw new AppError("email e senha são obrigatórios");
     }
 
-    const sessionsServices = new SessionsServices();
+    const sessionsServices = container.resolve(SessionsServices);
 
     const token = await sessionsServices.execute({ email, password });
 

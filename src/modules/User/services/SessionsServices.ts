@@ -1,4 +1,5 @@
 import { sign } from "jsonwebtoken";
+import { inject, injectable } from "tsyringe";
 import auth from "../../../config/auth";
 import { AppError } from "../../../shared/errors/AppError";
 import { ICriptografyPassword } from "../../../shared/providers/cryptography";
@@ -20,13 +21,14 @@ interface IResponse {
   token: string;
 }
 
+@injectable()
 class SessionsServices {
-  private criptografyPassword: ICriptografyPassword;
-  private userRepository: IUserRepository;
-  constructor() {
-    this.criptografyPassword = new CriptografyPasswordBcrypt();
-    this.userRepository = new UserRespository();
-  }
+  constructor(
+    @inject("UserRepository")
+    private userRepository: IUserRepository,
+    @inject("CriptografyPasswordBcrypt")
+    private criptografyPassword: ICriptografyPassword,
+  ) {}
 
   async execute({ email, password }: IRequest): Promise<IResponse> {
     const userExist = await this.userRepository.findEmail(email);
