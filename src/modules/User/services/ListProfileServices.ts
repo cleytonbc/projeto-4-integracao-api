@@ -1,3 +1,4 @@
+import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../shared/errors/AppError";
 import { UserRespository } from "../repositories/implements/UserRepository";
 import { IUserRepository } from "../repositories/IUserRepository";
@@ -7,11 +8,12 @@ interface IResponse {
   email: string;
 }
 
+@injectable()
 class ListProfileServices {
-  private userRepository: IUserRepository;
-  constructor() {
-    this.userRepository = new UserRespository();
-  }
+  constructor(
+    @inject("UserRepository")
+    private userRepository: IUserRepository,
+  ) {}
   async execute(id: string): Promise<IResponse> {
     const userExist = await this.userRepository.findById(id);
 
