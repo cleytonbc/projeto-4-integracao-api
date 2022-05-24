@@ -1,15 +1,20 @@
+import "reflect-metadata";
 import "dotenv/config";
+
 import express, { NextFunction, Request, Response } from "express";
+
+import "./database";
+
 import "express-async-errors";
 import swaggerUi from "swagger-ui-express";
 
 import swaggerFile from "../../swagger.json";
 
+import "../container";
 import { router } from "./routes";
 
 const app = express();
 
-import "./database";
 import { AppError } from "../errors/AppError";
 
 app.use(express.json());

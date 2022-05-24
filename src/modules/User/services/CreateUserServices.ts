@@ -1,7 +1,9 @@
+import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../shared/errors/AppError";
 import { ICriptografyPassword } from "../../../shared/providers/cryptography";
 import { CriptografyPasswordBcrypt } from "../../../shared/providers/cryptography/implements/CriptografyPasswordBcrypt";
 import { UserRespository } from "../repositories/implements/UserRepository";
+import { IUserRepository } from "../repositories/IUserRepository";
 import { IUser } from "../schemas/IUser";
 
 interface IRequest {
@@ -14,15 +16,17 @@ interface IResponse {
   email: string;
 }
 
+@injectable()
 class CreateUserServices {
-  private criptografyPassword: ICriptografyPassword;
-  constructor() {
-    this.criptografyPassword = new CriptografyPasswordBcrypt();
-  }
-  async execute({ name, email, password }: IRequest): Promise<IResponse> {
-    const userRespository = new UserRespository();
+  constructor(
+    @inject("UserRepository")
+    private userRepository: IUserRepository,
+    @inject("CriptografyPasswordBcrypt")
+    private criptografyPassword: ICriptografyPassword,
+  ) {}
 
-    const userEmailExists = await userRespository.findEmail(email);
+  async execute({ name, email, password }: IRequest): Promise<IResponse> {
+    const userEmailExists = await this.userRepository.findEmail(email);
 
     if (userEmailExists) {
       throw new AppError("Email já existente");
@@ -30,7 +34,7 @@ class CreateUserServices {
 
     const password_hash = await this.criptografyPassword.Hash(password);
 
-    userRespository.create({
+    this.userRepository.create({
       name,
       email,
       password_hash,
