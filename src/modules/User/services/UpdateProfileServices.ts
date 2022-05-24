@@ -1,4 +1,5 @@
 import { response } from "express";
+import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../shared/errors/AppError";
 import { ICriptografyPassword } from "../../../shared/providers/cryptography";
 import { CriptografyPasswordBcrypt } from "../../../shared/providers/cryptography/implements/CriptografyPasswordBcrypt";
@@ -19,13 +20,15 @@ interface IResponse {
   email: string;
 }
 
+@injectable()
 class UpdateProfileServices {
-  private userRepository: IUserRepository;
-  private criptografyPassword: ICriptografyPassword;
-  constructor() {
-    this.userRepository = new UserRespository();
-    this.criptografyPassword = new CriptografyPasswordBcrypt();
-  }
+  constructor(
+    @inject("UserRepository")
+    private userRepository: IUserRepository,
+    @inject("CriptografyPasswordBcrypt")
+    private criptografyPassword: ICriptografyPassword,
+  ) {}
+
   async execute({
     id,
     name,
