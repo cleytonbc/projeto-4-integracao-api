@@ -7,7 +7,7 @@ import { FindByUndeliverableTracker } from "../../../modules/Tracker/services/Fi
 export default {
   key: "UpdateTracker",
   options: {
-    //repeat: { cron: "*/10 * * * *" },
+    repeat: { cron: "*/10 * * * *" },
   },
   async handle({ data }) {
     const trackerRepository = new TrackerRepository();
