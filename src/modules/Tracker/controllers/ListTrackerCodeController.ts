@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { ListTrackerCodeServices } from "../services/ListTrackerCodeServices copy";
+import { ListTrackerCodeServices } from "../services/ListCodeTrackerServices";
 
 class ListTrackerCodeController {
   async handle(request: Request, response: Response): Promise<Response> {

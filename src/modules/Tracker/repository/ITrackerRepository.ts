@@ -9,4 +9,5 @@ export interface ITrackerRepository {
   findById(id: string): Promise<ITracker>;
   findAndUpdate(data: IUpdateTrackerDTO): Promise<ITracker>;
   delete(id: string): Promise<void>;
+  findAllUndeliverable(): Promise<ITracker[]>;
 }
