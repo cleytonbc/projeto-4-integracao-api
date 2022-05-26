@@ -3,11 +3,13 @@ import { TrackerRepository } from "../../../modules/Tracker/repository/implement
 import { ITracker } from "../../../modules/Tracker/schemas/ITracker";
 import { CallApiTrackerJobServices } from "../../../modules/Tracker/services/CallApiTrackerJobServices";
 import { FindByUndeliverableTracker } from "../../../modules/Tracker/services/FindByUndeliverableTracker";
+import { compareDate } from "../../utils/compareDate";
+import { convertDateStrAndHouStr } from "../../utils/convertDate";
 
 export default {
   key: "UpdateTrackers",
   options: {
-    repeat: { cron: "*/10 * * * *" },
+    repeat: { cron: "*/1 * * * *" },
   },
   async handle({ data }) {
     const trackerRepository = new TrackerRepository();
@@ -32,16 +34,27 @@ export default {
 
     await Promise.all(
       trackerResponse.map(async (tracking): Promise<void> => {
-        await trackerRepository.findAndUpdate({
-          _id: tracking._id,
-          code: tracking.code,
-          amount: tracking.amount,
-          isDelivery: tracking.isDelivery,
-          lastUpdate: tracking.lastUpdate,
-          userId: tracking.userId,
-          service: tracking.service,
-          events: tracking.events,
-        });
+        const actualTrack = undeliverableTracker.find(
+          t => t._id === tracking._id,
+        );
+
+        const outdatedTraking = compareDate(
+          tracking.lastUpdate,
+          actualTrack.lastUpdate,
+        );
+
+        if (outdatedTraking) {
+          await trackerRepository.findAndUpdate({
+            _id: tracking._id,
+            code: tracking.code,
+            amount: tracking.amount,
+            isDelivery: tracking.isDelivery,
+            lastUpdate: tracking.lastUpdate,
+            userId: tracking.userId,
+            service: tracking.service,
+            events: tracking.events,
+          });
+        }
       }),
     );
   },

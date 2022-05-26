@@ -23,7 +23,7 @@ export default {
       queue.bull.process(queue.handle);
 
       queue.bull.on("completed", (job: Job, result: any) => {
-        console.log(`Job ${queue.name} completed with result ${result}`);
+        console.log(`Job ${queue.name} completed`);
       });
 
       queue.bull.on("failed", (job: Job, err: Error) => {
