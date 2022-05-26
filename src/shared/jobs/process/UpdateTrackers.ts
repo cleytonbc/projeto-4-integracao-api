@@ -5,7 +5,7 @@ import { CallApiTrackerJobServices } from "../../../modules/Tracker/services/Cal
 import { FindByUndeliverableTracker } from "../../../modules/Tracker/services/FindByUndeliverableTracker";
 
 export default {
-  key: "UpdateTracker",
+  key: "UpdateTrackers",
   options: {
     repeat: { cron: "*/10 * * * *" },
   },

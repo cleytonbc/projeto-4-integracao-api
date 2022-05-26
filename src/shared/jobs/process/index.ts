@@ -1,1 +1,2 @@
-export { default as UpdateTracker } from "./UpdateTracker";
+export { default as UpdateTracker } from "./UpdateTrackers";
+export { default as UpdateNewTracker } from "./UpdateNewTracker";

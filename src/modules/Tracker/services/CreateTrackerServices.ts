@@ -1,9 +1,8 @@
 import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../shared/errors/AppError";
-import { ICreateTrackerDTO } from "../DTOS/ICreateTrackerDTO";
-import { TrackerRepository } from "../repository/implements/TrackerRepository";
+import queue from "../../../shared/jobs/queue";
+import { validCode } from "../../../shared/utils/validCode";
 import { ITrackerRepository } from "../repository/ITrackerRepository";
-import { ITracker } from "../schemas/ITracker";
 import { CallApiTrackerServices } from "./CallApiTrackerServices";
 
 interface IResponse {
@@ -27,8 +26,12 @@ class CreateTrackerService {
     private trackerRepository: ITrackerRepository,
   ) {}
 
-  async execute(code: string, userId: string): Promise<IResponse> {
-    const callApiTrackerServices = new CallApiTrackerServices();
+  async execute(code: string, userId: string): Promise<void> {
+    const codeIsValid = validCode(code);
+
+    if (!codeIsValid) {
+      throw new AppError("Código de rastreio inválido");
+    }
 
     const codeExists = await this.trackerRepository.findByCodeAndUser(
       code,
@@ -39,20 +42,17 @@ class CreateTrackerService {
       throw new AppError("Já existe esse código cadastrado");
     }
 
-    const tracking = await callApiTrackerServices.execute(code, userId);
+    const { _id } = await this.trackerRepository.create({
+      code: code,
+      amount: 0,
+      isDelivery: false,
+      lastUpdate: new Date(1900, 1, 1),
+      userId: userId,
+      service: "",
+      events: {},
+    });
 
-    const { amount, service, isDelivery, events } =
-      await this.trackerRepository.create({
-        code: tracking.code,
-        amount: tracking.amount,
-        isDelivery: tracking.isDelivery,
-        lastUpdate: tracking.lastUpdate,
-        userId: tracking.userId,
-        service: tracking.service,
-        events: tracking.events,
-      });
-
-    return { code, amount, service, isDelivery, events };
+    await queue.add("UpdateNewTracker", { code, userId, id: _id });
   }
 }
 export { CreateTrackerService };

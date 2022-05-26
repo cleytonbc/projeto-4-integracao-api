@@ -1,5 +1,5 @@
 import Queue from "../queue";
 
 export async function initial() {
-  await Queue.add("UpdateTracker", {});
+  await Queue.add("UpdateTrackers", {});
 }

@@ -18,7 +18,7 @@ class CreateTrackerController {
       userId,
     );
 
-    return response.json(track);
+    return response.status(201).send();
   }
 }
 
