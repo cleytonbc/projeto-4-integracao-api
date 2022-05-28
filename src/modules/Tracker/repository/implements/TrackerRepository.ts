@@ -7,6 +7,7 @@ import { ITrackerRepository } from "../ITrackerRepository";
 class TrackerRepository implements ITrackerRepository {
   async create({
     code,
+    description,
     service,
     amount,
     isDelivery,
@@ -16,6 +17,7 @@ class TrackerRepository implements ITrackerRepository {
   }: ICreateTrackerDTO): Promise<ITracker> {
     const tracker = new Tracker({
       code,
+      description,
       service,
       amount,
       isDelivery,
@@ -44,6 +46,7 @@ class TrackerRepository implements ITrackerRepository {
   async findAndUpdate({
     _id,
     code,
+    description,
     amount,
     isDelivery,
     service,
@@ -53,7 +56,17 @@ class TrackerRepository implements ITrackerRepository {
   }: IUpdateTrackerDTO): Promise<ITracker> {
     return Tracker.findOneAndUpdate(
       { _id },
-      { _id, code, amount, isDelivery, service, userId, lastUpdate, events },
+      {
+        _id,
+        code,
+        description,
+        amount,
+        isDelivery,
+        service,
+        userId,
+        lastUpdate,
+        events,
+      },
       {
         new: true,
       },

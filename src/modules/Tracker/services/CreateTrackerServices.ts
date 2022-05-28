@@ -3,21 +3,6 @@ import { AppError } from "../../../shared/errors/AppError";
 import queue from "../../../shared/jobs/queue";
 import { validCode } from "../../../shared/utils/validCode";
 import { ITrackerRepository } from "../repository/ITrackerRepository";
-import { CallApiTrackerServices } from "./CallApiTrackerServices";
-
-interface IResponse {
-  code: string;
-  amount: number;
-  isDelivery: boolean;
-  service: string;
-  events: {
-    date?: string;
-    hour?: string;
-    locality?: string;
-    status?: string;
-    subStatus?: object;
-  }[];
-}
 
 @injectable()
 class CreateTrackerService {
@@ -26,7 +11,11 @@ class CreateTrackerService {
     private trackerRepository: ITrackerRepository,
   ) {}
 
-  async execute(code: string, userId: string): Promise<void> {
+  async execute(
+    code: string,
+    description: string,
+    userId: string,
+  ): Promise<void> {
     const codeIsValid = validCode(code);
 
     if (!codeIsValid) {
@@ -43,7 +32,8 @@ class CreateTrackerService {
     }
 
     const { _id } = await this.trackerRepository.create({
-      code: code,
+      code,
+      description,
       amount: 0,
       isDelivery: false,
       lastUpdate: new Date(1900, 1, 1),

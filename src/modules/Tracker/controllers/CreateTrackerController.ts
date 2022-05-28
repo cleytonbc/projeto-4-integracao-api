@@ -5,16 +5,17 @@ import { CreateTrackerService } from "../services/CreateTrackerServices";
 class CreateTrackerController {
   async handle(request: Request, response: Response): Promise<Response> {
     const userId = request.user.id;
-    const { code } = request.body;
-    if (!code) {
+    const { code, description } = request.body;
+    if (!code || !description) {
       return response
         .status(400)
-        .json({ error: true, message: "Código não informado" });
+        .json({ error: true, message: "Código ou descrição não informado" });
     }
 
     const createTrackerService = container.resolve(CreateTrackerService);
     const track = await createTrackerService.execute(
       code.toUpperCase(),
+      description,
       userId,
     );
 
