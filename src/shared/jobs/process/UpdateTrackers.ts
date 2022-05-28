@@ -3,8 +3,10 @@ import { TrackerRepository } from "../../../modules/Tracker/repository/implement
 import { ITracker } from "../../../modules/Tracker/schemas/ITracker";
 import { CallApiTrackerJobServices } from "../../../modules/Tracker/services/CallApiTrackerJobServices";
 import { FindByUndeliverableTracker } from "../../../modules/Tracker/services/FindByUndeliverableTracker";
+import { SendNotificationMail } from "../../../modules/Tracker/services/SendNotificationMail";
 import { compareDate } from "../../utils/compareDate";
 import { convertDateStrAndHouStr } from "../../utils/convertDate";
+import Queue from "../queue";
 
 export default {
   key: "UpdateTrackers",
@@ -16,6 +18,7 @@ export default {
     const findByUndeliverableTracker = container.resolve(
       FindByUndeliverableTracker,
     );
+    const sendNotificationMail = container.resolve(SendNotificationMail);
 
     const undeliverableTracker = await findByUndeliverableTracker.execute();
 
@@ -38,13 +41,12 @@ export default {
           t => t._id === tracking._id,
         );
 
-        const outdatedTraking = compareDate(
-          tracking.lastUpdate,
-          actualTrack.lastUpdate,
-        );
+        const outdatedTraking =
+          compareDate(tracking.lastUpdate, actualTrack.lastUpdate) &&
+          actualTrack.events.length > 0;
 
         if (outdatedTraking) {
-          await trackerRepository.findAndUpdate({
+          const { userId, code } = await trackerRepository.findAndUpdate({
             _id: tracking._id,
             code: tracking.code,
             amount: tracking.amount,
@@ -54,6 +56,8 @@ export default {
             service: tracking.service,
             events: tracking.events,
           });
+
+          await Queue.add("SendMailNotification", { userId, code });
         }
       }),
     );

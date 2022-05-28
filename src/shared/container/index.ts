@@ -6,6 +6,8 @@ import { ITrackerRepository } from "../../modules/Tracker/repository/ITrackerRep
 import { TrackerRepository } from "../../modules/Tracker/repository/implements/TrackerRepository";
 import { ICriptografyPassword } from "../providers/cryptography";
 import { CriptografyPasswordBcrypt } from "../providers/cryptography/implements/CriptografyPasswordBcrypt";
+import { IMailProvider } from "../providers/mailProviders/IMailProvider";
+import { MailProviderSendGrid } from "../providers/mailProviders/implements/MailProviderSendGrid";
 
 container.registerInstance<IUserRepository>(
   "UserRepository",
@@ -19,4 +21,9 @@ container.registerSingleton<ITrackerRepository>(
 container.registerSingleton<ICriptografyPassword>(
   "CriptografyPasswordBcrypt",
   CriptografyPasswordBcrypt,
+);
+
+container.registerSingleton<IMailProvider>(
+  "MailProvider",
+  MailProviderSendGrid,
 );
