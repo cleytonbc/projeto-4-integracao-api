@@ -5,6 +5,7 @@ import { ITracker } from "./ITracker";
 const trackerSchema = new Schema<ITracker>({
   _id: { type: String, default: uuidV4 },
   code: { type: String, required: true },
+  description: { type: String, required: true },
   service: { type: String, required: false },
   amount: { type: Number, required: true },
   userId: { type: String, required: true },
