@@ -48,6 +48,7 @@ export default {
         if (outdatedTraking) {
           const { userId, code } = await trackerRepository.findAndUpdate({
             _id: tracking._id,
+            description: tracking.description,
             code: tracking.code,
             amount: tracking.amount,
             isDelivery: tracking.isDelivery,

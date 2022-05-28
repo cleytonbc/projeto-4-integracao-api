@@ -6,20 +6,23 @@ class EditTrackerController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
     const userId = request.user.id;
-    const { code } = request.body;
+    const { code, description } = request.body;
 
-    if (!code) {
-      return response.status(400).json({ message: "Código não informado" });
+    if (!code || !description) {
+      return response
+        .status(400)
+        .json({ message: "Campos obrigatórios não informado" });
     }
     const editTrackerService = container.resolve(EditTrackerService);
 
-    const tracker = await editTrackerService.execute(
+    await editTrackerService.execute(
       id,
       code.toUpperCase(),
+      description,
       userId,
     );
 
-    return response.json(tracker);
+    return response.status(200).send();
   }
 }
 
