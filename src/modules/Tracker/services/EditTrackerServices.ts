@@ -44,6 +44,7 @@ class EditTrackerService {
         lastUpdate: trackerExists.lastUpdate,
         events: trackerExists.events,
       });
+      return;
     }
 
     const trackerAlreadyExists = await this.trackerRepository.findByCodeAndUser(
