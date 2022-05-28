@@ -12,6 +12,8 @@ class SendNotificationMail {
     private mailProvider: IMailProvider,
     @inject("UserRepository")
     private userRepository: IUserRepository,
+    @inject("TrackerRepository")
+    private trackerRepository: ITrackerRepository,
   ) {}
 
   async execute(userId: string, code: string) {
@@ -23,10 +25,15 @@ class SendNotificationMail {
       "emails",
       "UpdatedTracker.hbs",
     );
+    const { description } = await this.trackerRepository.findByCodeAndUser(
+      code,
+      userId,
+    );
 
     const variables = {
       name,
       code,
+      description,
     };
 
     const path = templatePath;
