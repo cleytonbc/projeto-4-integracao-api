@@ -42,7 +42,7 @@ class CreateTrackerService {
       events: {},
     });
 
-    await queue.add("UpdateNewTracker", { code, userId, id: _id });
+    await queue.add("UpdateNewTracker", { code, userId, description, id: _id });
   }
 }
 export { CreateTrackerService };
