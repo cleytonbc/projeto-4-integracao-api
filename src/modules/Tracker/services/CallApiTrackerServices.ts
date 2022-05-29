@@ -28,7 +28,11 @@ interface IResponseError {
 }
 
 class CallApiTrackerServices {
-  async execute(code: string, userId: string): Promise<ITracker> {
+  async execute(
+    code: string,
+    description: string,
+    userId: string,
+  ): Promise<ITracker> {
     const codeFomartIsValid = validCode(code);
 
     if (!codeFomartIsValid) {
@@ -64,6 +68,7 @@ class CallApiTrackerServices {
 
       return {
         code: codigo,
+        description,
         service: servico,
         userId,
         isDelivery,

@@ -25,19 +25,20 @@ class SendNotificationMail {
       "emails",
       "UpdatedTracker.hbs",
     );
-    const { description } = await this.trackerRepository.findByCodeAndUser(
-      code,
-      userId,
-    );
+    const { description, events } =
+      await this.trackerRepository.findByCodeAndUser(code, userId);
 
     const variables = {
       name,
       code,
       description,
+      locality: events[0].locality,
+      status: events[0].status,
+      subStatus: events[0].subStatus,
     };
 
     const path = templatePath;
-    const subject = "Atualização de encomenda";
+    const subject = "RastreioApp - Atualização de encomenda";
 
     await this.mailProvider.sendMail(to, subject, variables, path);
   }
